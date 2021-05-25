@@ -76,6 +76,9 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "trade_system.users.apps.UsersConfig",
+    "trade_system.items.apps.ItemsConfig",
+    "trade_system.offers.apps.OffersConfig",
+    "trade_system.transactions.apps.TransactionsConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

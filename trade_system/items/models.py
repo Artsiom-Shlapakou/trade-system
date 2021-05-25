@@ -36,6 +36,7 @@ class WatchList(models.Model):
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
 
+
 class Price(models.Model):
     """Item prices"""
     currency = models.ForeignKey(Currency, blank=True, null=True, on_delete=models.SET_NULL)

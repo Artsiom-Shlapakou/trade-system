@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from trade_system.items.models import Item
 from trade_system.users.models import User
 from trade_system.offers.models import Offer
@@ -12,16 +13,16 @@ class Trade(models.Model):
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name = 'seller_trade',
-        related_query_name='seller_trade'
+        related_name=_("seller_trade"),
+        related_query_name=_("seller_trade")
     )
     buyer = models.ForeignKey(
         User,
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name = 'buyer_trade',
-        related_query_name='buyer_trade'
+        related_name = _("buyer_trade"),
+        related_query_name=_("buyer_trade")
     )
     quantity = models.IntegerField()
     unit_price = models.DecimalField(max_digits=7, decimal_places=2)
@@ -31,8 +32,8 @@ class Trade(models.Model):
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
-        related_name = 'buyer_trade',
-        related_query_name='buyer_trade'
+        related_name=_("buyer_trade"),
+        related_query_name=_("buyer_trade")
     )
     seller_offer = models.ForeignKey(
         Offer,

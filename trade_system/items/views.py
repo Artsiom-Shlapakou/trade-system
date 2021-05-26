@@ -1,4 +1,5 @@
 from django.shortcuts import render
+<<<<<<< HEAD
 from rest_framework import viewsets
 from rest_framework import mixins
 from trade_system.items.models import Item, WatchList

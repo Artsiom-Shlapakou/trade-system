@@ -309,3 +309,9 @@ REST_FRAMEWORK = {
 CORS_URLS_REGEX = r"^/api/.*$"
 # Your stuff...
 # ------------------------------------------------------------------------------
+CELERY_BEAT_SCHEDULE = {
+    "task_search_offer": {
+        "task": "trade_system.transactions.tasks.task_search_offer",
+        "schedule": 60.0
+    }
+}

@@ -31,11 +31,17 @@ class Item(StockBase):
     currency = models.ForeignKey(Currency, blank=True, null=True, on_delete=models.SET_NULL)
     details = models.TextField(_("Details"), null=True, max_length=512)
 
+    def __str__(self):
+        return self.code
+
 
 class WatchList(models.Model):
     """Current user, favorite list of stocks"""
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.item.code
 
 
 class Price(models.Model):
@@ -52,3 +58,19 @@ class Inventory(models.Model):
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
     quantity = models.IntegerField(_("Stocks quantity"), default=0)
+
+    def __str__(self):
+        return '{} {} pieces'.format(self.item, self.quantity)
+    
+    class Meta:
+        verbose_name = _("Inventory")
+        verbose_name_plural = _("Inventories")
+
+    def reduce_quantity(self, quantity):
+        self.quantity -= quantity
+        self.save()
+
+    # def add_quantity(instance):
+    # seller_inventory = Inventory.objects.get(user=instance.user.id, item=instance.item)
+    # seller_inventory.quantity += instance.quantity
+    # seller_inventory.save()

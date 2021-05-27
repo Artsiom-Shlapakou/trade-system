@@ -7,10 +7,6 @@ from django.utils.translation import gettext_lazy as _
 from decimal import Decimal
 
 
-class Wallet(models.Model):
-    money = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, default=Decimal('0.00'))
-
-
 class User(AbstractUser):
     """Default user for trade-system."""
 
@@ -18,7 +14,6 @@ class User(AbstractUser):
     name = CharField(_("Name of User"), blank=True, max_length=255)
     first_name = None  # type: ignore
     last_name = None  # type: ignore
-    wallet = models.OneToOneField(Wallet, on_delete=models.CASCADE, null=True)
 
     def get_absolute_url(self):
         """Get url for user's detail view.
@@ -28,3 +23,8 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"username": self.username})
+
+
+class Wallet(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    money = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, default=Decimal('0.00'))

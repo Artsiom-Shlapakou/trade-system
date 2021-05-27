@@ -24,7 +24,7 @@ class Trade(models.Model):
         related_name = _("buyer_trade"),
         related_query_name=_("buyer_trade")
     )
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=7, decimal_places=2)
     description = models.TextField(blank=True, null=True)
     buyer_offer = models.ForeignKey(

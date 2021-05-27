@@ -18,3 +18,11 @@ class OfferSerializers(serializers.ModelSerializer):
             'price',
             'is_active'
         ]
+
+    def validate_entry_quantity(self, data):
+        """
+        Check that the entry_quantity <= quantity.
+        """
+        if data['entry_quantity'] > data['quantity']:
+            raise serializers.ValidationError("quantity must occur or equal after entry_quantity")
+        return data

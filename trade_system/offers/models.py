@@ -11,6 +11,6 @@ class Offer(models.Model):
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
     entry_quantity = models.IntegerField(_("Requested quantity"))
     quantity = models.IntegerField(_("Current quantity"))
-    order_type = models.PositiveSmallIntegerField(choices=OrderType, default=BUY)
+    order_type = models.PositiveSmallIntegerField(choices=OrderType)
     price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     is_active = models.BooleanField(default=True)

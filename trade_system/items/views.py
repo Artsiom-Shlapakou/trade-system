@@ -1,22 +1,46 @@
-from django.shortcuts import render
-from rest_framework import viewsets
-from rest_framework import mixins
-from trade_system.items.models import Item, WatchList
-from trade_system.items.serializers import (ItemSerializer, WatchListSerializer
-                                            )
+from rest_framework import viewsets, mixins
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
+from trade_system.items.models import Item, WatchList, Inventory
+from trade_system.items.serializers import (InventorySerializer, ItemSerializer, 
+                                            WatchListSerializer, InventorySerializer)
 
-
-class ItemViewSet(viewsets.ModelViewSet):
+class ItemListRetrieveViewSet(mixins.ListModelMixin, 
+                           mixins.RetrieveModelMixin, 
+                           viewsets.GenericViewSet):
     
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
 
-class WatchlistRetrieveUpdate(  mixins.RetrieveModelMixin,
-                                mixins.UpdateModelMixin,
-                                viewsets.GenericViewSet):
+
+class WatchlistRetrieveUpdateViewSet(mixins.ListModelMixin,
+                                     mixins.RetrieveModelMixin,
+                                     mixins.UpdateModelMixin,
+                                     viewsets.GenericViewSet):
 
     serializer_class = WatchListSerializer
     
     def get_queryset(self):
-        return WatchList.objects.filter(user=self.kwargs['user'])
+        return WatchList.objects.select_related('user') \
+            .select_related("item") \
+            .filter(user=self.request.user)
+
+    @action(methods=['POST'], detail=True)
+    def add_to_watchlist(self, request, pk=None):
+        pass
+
+
+class InventoryListRetrieveViewSet(mixins.RetrieveModelMixin, 
+                                   mixins.ListModelMixin, 
+                                   viewsets.GenericViewSet):
+
+    serializer_class = InventorySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Inventory.objects.filter(user=self.request.user)
+
+
+# select_related('user') \
+            # .select_related('item') \

@@ -61,16 +61,15 @@ class Inventory(models.Model):
 
     def __str__(self):
         return '{} {} pieces'.format(self.item, self.quantity)
-    
-    class Meta:
-        verbose_name = _("Inventory")
-        verbose_name_plural = _("Inventories")
 
     def reduce_quantity(self, quantity):
         self.quantity -= quantity
         self.save()
 
-    # def add_quantity(instance):
-    # seller_inventory = Inventory.objects.get(user=instance.user.id, item=instance.item)
-    # seller_inventory.quantity += instance.quantity
-    # seller_inventory.save()
+    def add_quantity(self, quantity):
+        self.quantity += quantity
+        self.save()
+    
+    class Meta:
+        verbose_name = _("Inventory")
+        verbose_name_plural = _("Inventories")

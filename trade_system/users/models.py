@@ -10,10 +10,7 @@ from decimal import Decimal
 class User(AbstractUser):
     """Default user for trade-system."""
 
-    #: First and last name do not cover name patterns around the globe
     name = CharField(_("Name of User"), blank=True, max_length=255)
-    first_name = None  # type: ignore
-    last_name = None  # type: ignore
 
     def get_absolute_url(self):
         """Get url for user's detail view.
@@ -28,3 +25,13 @@ class User(AbstractUser):
 class Wallet(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     money = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, default=Decimal('0.00'))
+
+    def add_money(self, cost):
+        """ Add money to wallet"""
+        self.balance += cost
+        self.save()
+
+    def take_money(self, cost):
+        """Take out any money"""
+        self.balance -= cost
+        self.save()

@@ -1,4 +1,3 @@
-from trade_system.users.services import add_money, take_money
 from trade_system.offers.models import Offer
 from trade_system.transactions.models import Trade
 from trade_system.offers.choises import BUY, SALE
@@ -13,21 +12,24 @@ def search_offer():
     for buyer in buyers:
         for seller in sellers:
             if buyer.item == seller.item and buyer.price >= seller.price:
-                cost = total_trade_amount(buyer, seller)
                 Trade.objects.create(item=buyer.item,
                                 seller=seller.user,
                                 buyer=buyer.user,
                                 quantity=min(buyer.quantity, seller.quantity),
-                                unit_price=cost,
+                                unit_price=total_trade_amount(buyer, seller),
                                 buyer_offer=buyer,
                                 seller_offer=seller
                                 )
-                buyer.add_quantity()
-                take_money(buyer, cost)
-                seller.reduce_quantity()
-                add_money(seller, cost)
-                buyer.save()
-                seller.save()
+                save_trade(buyer, seller)
+
+def save_trade(buyer, seller):
+    cost = total_trade_amount(buyer, seller)
+    buyer.add_quantity()
+    buyer.take_money(cost)
+    seller.reduce_quantity()
+    seller.add_money(cost)
+    buyer.save()
+    seller.save()
 
 def total_trade_amount(buyer, seller):
     """Calculation of the total transaction amount"""

@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from trade_system.users.models import User
 from trade_system.items.models import Item
-from trade_system.offers.choises import OrderType, BUY
+from trade_system.offers.choises import OrderType
 
 
 class Offer(models.Model):

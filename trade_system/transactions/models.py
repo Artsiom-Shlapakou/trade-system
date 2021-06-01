@@ -1,9 +1,10 @@
+from _typeshed import OpenBinaryMode
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from trade_system.items.models import Item
 from trade_system.users.models import User
 from trade_system.offers.models import Offer
-
+from trade_system.transactions.choices import STATUSES, OPEN
 
 class Trade(models.Model):
     """Information about a certain transaction"""
@@ -43,3 +44,4 @@ class Trade(models.Model):
         related_name = 'seller_trade',
         related_query_name='seller_trade'
     )
+    status = models.PositiveSmallIntegerField(choices=STATUSES, default=OPEN)

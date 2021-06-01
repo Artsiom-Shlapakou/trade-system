@@ -60,9 +60,9 @@ class Inventory(models.Model):
     quantity = models.IntegerField(_("Stocks quantity"), default=0)
 
     def __str__(self):
-        return '{} {} pieces'.format(self.item, self.quantity)
+        return '{} user {} {} pieces'.format(self.user, self.item, self.quantity)
 
-    def reduce_quantity(self, quantity):
+    def remove_quantity(self, quantity):
         self.quantity -= quantity
         self.save()
 

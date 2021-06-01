@@ -26,12 +26,12 @@ class Wallet(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     money = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, default=Decimal('0.00'))
 
-    def add_money(self, cost):
+    def add_money(self, money):
         """ Add money to wallet"""
-        self.balance += cost
+        self.balance += money
         self.save()
 
-    def take_money(self, cost):
+    def take_money(self, money):
         """Take out any money"""
-        self.balance -= cost
+        self.balance -= money
         self.save()

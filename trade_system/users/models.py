@@ -27,7 +27,6 @@ class Wallet(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     money = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, default=Decimal('0.00'))
 
-
     def __str__(self):
         return '{} {}'.format(self.user, self.money)
 

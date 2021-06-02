@@ -13,3 +13,4 @@ def create_user(sender, instance, created, **kwargs):
         Wallet.objects.create(user=instance)
         Inventory.objects.create(user=instance)
         WatchList.objects.create(user=instance)
+        instance.save()

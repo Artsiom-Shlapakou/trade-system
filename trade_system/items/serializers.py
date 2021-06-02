@@ -7,10 +7,7 @@ class CurrencySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Currency
-        field = [
-            'code ',
-            'name'
-        ]
+        fields = '__all__'
     
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -18,11 +15,12 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        field = [
-            'price',
-            'currency',
-            'details'
-        ]
+        fields = '__all__'
+        # field = [
+        #     'price',
+        #     'currency',
+        #     'details'
+        # ]
 
 
 class WatchListSerializer(serializers.ModelSerializer):
@@ -31,10 +29,7 @@ class WatchListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WatchList
-        field = [
-            'user',
-            'item'
-        ]
+        fields = '__all__'
 
 
 class PriceSerializer(serializers.ModelSerializer):
@@ -43,12 +38,7 @@ class PriceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Price
-        field = [
-            'currency',
-            'item',
-            'price',
-            'date'
-        ]
+        fields = '__all__'
     
 
 class InventorySerializer(serializers.ModelSerializer):
@@ -57,8 +47,4 @@ class InventorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Inventory
-        fields = [
-            'user',
-            'item',
-            'quantity'
-        ]
+        fields = '__all__'

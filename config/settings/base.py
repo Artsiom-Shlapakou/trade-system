@@ -311,7 +311,7 @@ DJOSER = {
     'LOGIN_FIELD' : 'email',
     'USER_CREATE_PASSWORD_RETYPE' : True,
     'SERIALIZERS' : {
-        'user' : 'users.serializers.UserSerializer'
+        'user' : 'trade_system.users.serializers.UserSerializers'
     },
 }
 

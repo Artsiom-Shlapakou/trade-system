@@ -1,8 +1,11 @@
 from enum import unique
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.db.models.base import Model
-from trade_system.users.models import User
+
+
+User = get_user_model()
 
 
 class StockBase(models.Model):
@@ -37,7 +40,7 @@ class Item(StockBase):
 
 class WatchList(models.Model):
     """Current user, favorite list of stocks"""
-    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name='watchlist')
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
@@ -55,7 +58,7 @@ class Price(models.Model):
 
 class Inventory(models.Model):
     """The number of stocks a particular user has"""
-    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL, related_name='inventory')
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL)
     quantity = models.IntegerField(_("Stocks quantity"), default=0)
 

@@ -39,9 +39,9 @@ def search_offer():
 @transaction.atomic
 def save_trade(buyer, seller):
     cost = calculate_trade_amount(buyer, seller)
-    buyer.add_quantity()
+    buyer.add_quantity(seller.quantity)
     buyer.take_money(cost)
-    seller.remove_quantity()
+    seller.remove_quantity(buyer.quantity)
     seller.add_money(cost)
     buyer.save()
     seller.save()

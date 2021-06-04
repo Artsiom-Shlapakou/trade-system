@@ -14,3 +14,11 @@ class Offer(models.Model):
     order_type = models.PositiveSmallIntegerField(choices=OrderType)
     price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return 'Offer {} {} {} {} {} {}'.format(self.user,
+                                    self.item, 
+                                    self.quantity, 
+                                    self.price,
+                                    self.item.currency,  
+                                    self.order_type)

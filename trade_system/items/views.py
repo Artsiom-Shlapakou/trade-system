@@ -40,7 +40,3 @@ class InventoryListRetrieveViewSet(mixins.RetrieveModelMixin,
 
     def get_queryset(self):
         return Inventory.objects.filter(user=self.request.user)
-
-
-# select_related('user') \
-            # .select_related('item') \

@@ -4,23 +4,18 @@ from trade_system.offers import services
 pytestmark = [pytest.mark.django_db]
 
 
-def test_get_all_active_sell_offers_service_queries_num(django_assert_num_queries,
-                                                        offer,
-                                                        another_offer):
-    with django_assert_num_queries(3):
-        data = services.get_opened_sale_offers()
-        print(data[0].item.name)
-        print(data[1].user.wallet)
-        print(data[1].user.inventory)
+def test_get_all_active_sell_offers_service_queries_num(offer,  another_offer):
+    data = services.get_opened_sale_offers()
+    print(data[0].item.name)
+    print(data[0].user.wallet)
+    print(data[0].user.inventory)
 
 
-def test_get_suitable_offers_queries_num(django_assert_num_queries, offer, buy_offer):
-    with django_assert_num_queries(5):
-        data = services.get_opened_purchase_offers(offer)
+def test_get_suitable_offers_queries_num(offer, buy_offer):
+    data = services.get_opened_purchase_offers()
+    print(data[0].item.name)
+    print(data[0].user.wallet)
+    print(data[0].user.inventory)
 
-        print(data[0].item.name)
-        print(data[0].user.wallet)
-        print(data[0].user.inventory)
-
-        assert data[0].is_active
-        assert data[0].expected_price == 300
+    assert data[0].is_active
+    assert data[0].price == 100

@@ -1,3 +1,4 @@
+from trade_system.offers.choises import BUY, SALE
 import pytest
 
 pytestmark = [pytest.mark.django_db]
@@ -25,18 +26,18 @@ def another_item(mixer, currency):
 @pytest.fixture
 def seller(mixer, item):
     created = mixer.blend('users.User')
-    slot = mixer.blend('items.InventorySlot',
+    slot = mixer.blend('items.Inventory',
                        item=item,
                        inventory=created.inventory,
-                       quantity=20)
-    created.inventory.slots.add(slot)
+                       quantity=5)
+    created.inventory.inventory_slots.add(slot)
     return created
 
 
 @pytest.fixture
 def buyer(mixer):
     created = mixer.blend('users.User')
-    created.wallet.bank = 10000
+    created.wallet.balance = 10000
     created.wallet.save()
     return created
 
@@ -44,18 +45,19 @@ def buyer(mixer):
 @pytest.fixture
 def another_buyer(mixer):
     created = mixer.blend('users.User')
-    created.wallet.bank = 10000
+    created.wallet.balance = 1000
     created.wallet.save()
     return created
 
 
+@pytest.fixture
 def offer(mixer, item, seller):
     return mixer.blend('offers.Offer',
                        user=seller,
                        item=item,
-                       type=1,
-                       expected_price=180,
-                       initial_quantity=20,
+                       order_type=BUY,
+                       price=100,
+                       quantity=20,
                        is_active=True)
 
 
@@ -64,7 +66,7 @@ def another_offer(mixer, another_item, seller):
     return mixer.blend('offers.Offer',
                        user=seller,
                        item=another_item,
-                       type=1,
+                       order_type=SALE,
                        is_active=True)
 
 
@@ -78,6 +80,6 @@ def buy_offer(mixer, item, buyer):
     return mixer.blend('offers.Offer',
                        user=buyer,
                        item=item,
-                       type=0,
-                       expected_price=300,
+                       order_type=BUY,
+                       price=100,
                        is_active=True)

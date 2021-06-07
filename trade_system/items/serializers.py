@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from trade_system.items.models import Currency, Item, Price, WatchList, Inventory
+from trade_system.items.models import Currency, InventorySlot, Item, Price, WatchList, Inventory
 from trade_system.users.serializers import UserSerializers
 
 
@@ -7,7 +7,10 @@ class CurrencySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Currency
-        fields = '__all__'
+        fields = [
+            'code',
+            'name'
+        ]
     
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -15,12 +18,11 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = '__all__'
-        # field = [
-        #     'price',
-        #     'currency',
-        #     'details'
-        # ]
+        field = [
+            'price',
+            'currency',
+            'details'
+        ]
 
 
 class WatchListSerializer(serializers.ModelSerializer):
@@ -29,7 +31,10 @@ class WatchListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WatchList
-        fields = '__all__'
+        fields = [
+            'user',
+            'item',
+        ]
 
 
 class PriceSerializer(serializers.ModelSerializer):
@@ -38,13 +43,29 @@ class PriceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Price
-        fields = '__all__'
+        fields = [
+            'currency',
+            'item',
+            'price',
+            'date'
+        ]
     
+
+class InventorySlotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InventorySlot
+        fields = (
+            "item",
+            "quantity"
+        )
 
 class InventorySerializer(serializers.ModelSerializer):
     user = UserSerializers
-    item = ItemSerializer(many=True)
+    item = InventorySlotSerializer(many=True)
 
     class Meta:
         model = Inventory
-        fields = '__all__'
+        fields = [
+            'user',
+            'item'
+        ]

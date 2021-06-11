@@ -1,3 +1,4 @@
+from trade_system.users.models import Wallet
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
@@ -12,3 +13,13 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
         }
+
+        
+class WalletSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Wallet
+
+        fields = [
+            'money'
+        ]

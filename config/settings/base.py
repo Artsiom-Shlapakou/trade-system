@@ -72,10 +72,14 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "corsheaders",
+    "djoser",
 ]
 
 LOCAL_APPS = [
     "trade_system.users.apps.UsersConfig",
+    "trade_system.items.apps.ItemsConfig",
+    "trade_system.offers.apps.OffersConfig",
+    "trade_system.transactions.apps.TransactionsConfig"
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -298,11 +302,30 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+}
+
+DJOSER = {
+    'LOGIN_FIELD' : 'email',
+    'USER_CREATE_PASSWORD_RETYPE' : True,
+    'SERIALIZERS' : {
+        'user' : 'trade_system.users.serializers.UserSerializers'
+    },
+}
+
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_URLS_REGEX = r"^/api/.*$"
 # Your stuff...
 # ------------------------------------------------------------------------------
+CELERY_BEAT_SCHEDULE = {
+    "task_search_offer": {
+        "task": "trade_system.transactions.tasks.task_search_offer",
+        "schedule": 60.0
+    }
+}
